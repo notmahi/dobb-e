@@ -1,0 +1,48 @@
+train:
+  _target_: dataloaders.decord_dataset.DecordDataset
+  config:
+    _target_: dataloaders.utils.DataLoaderConfig
+    dataset_root: ${env_vars.home_ssl_data_root}
+    trajectory_roots:
+      _target_: dataloaders.utils.load_trajectory_roots
+      trajectory_root_path: ${env_vars.home_ssl_data_root}/r3d_files.txt
+      original_root: ${env_vars.home_ssl_data_original_root}
+      new_root: ${env_vars.home_ssl_data_root}
+    include_tasks:
+      - "Door_Opening"
+    exclude_homes:
+      - "Home6"
+    exclude_envs: []
+    sequence_length: 1
+    control_timeskip: 9
+    relative_gripper: False
+  max_videoreaders_in_memory: 128
+  shuffle_mode: RANDOM_ORDER
+  device: cpu
+
+test: 
+  _target_: dataloaders.decord_dataset.DecordDataset
+  config:
+    _target_: dataloaders.utils.DataLoaderConfig
+    dataset_root: ${env_vars.finetune_task_data_root}
+    trajectory_roots:
+      _target_: dataloaders.utils.load_trajectory_roots
+      trajectory_root_path: ${env_vars.finetune_task_data_root}/r3d_files.txt
+      original_root: ${env_vars.finetune_task_data_original_root}
+      new_root: ${env_vars.finetune_task_data_root}
+    include_tasks:
+      - "Door_Opening"
+    exclude_homes: []
+    include_envs: 
+      - "Env1_val"
+      - "Env2_val"
+      - "Env3_val"
+      - "Env4_val"
+    sequence_length: 1
+    control_timeskip: 9
+    n_passes: 1
+    relative_gripper: False
+  max_videoreaders_in_memory: 128
+  shuffle_mode: SEQUENTIAL
+  device: cpu
+

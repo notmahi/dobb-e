@@ -1,0 +1,5 @@
+_target_: models.encoders.timm_encoders.TimmModel
+model_name: vit_base_patch16_224.mae
+pretrained: True
+
+

@@ -1,0 +1,49 @@
+defaults:
+  - env_vars: env_vars
+  - dataset: vinn_eval
+  - model: image_vinn
+  - loss_fn: vinn_loss_fn
+  - _self_
+
+num_epochs: 10
+eval_every: 1
+device: cuda
+
+batch_size: 16
+
+sampler: null
+batch_sampler:
+  _target_: dataloaders.decord_dataset.DecordBatchSampler
+  batch_size: ${batch_size}
+
+dataloader:
+  _target_: dataloaders.decord_dataloader.DecordVideoLoader
+  device: cpu
+  num_workers: 10
+
+optimizer:
+  _target_: torch.optim.SGD
+  lr: 0.01
+  momentum: 0.9
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.MultiStepLR
+  milestones: [50, 100, 200]
+  gamma: 0.1
+
+# Model saving and loading
+model_path: checkpoints/resnet18_imagenet_frozen
+resume_training: false
+save_every: 10
+
+load_finetuned_model: false
+finetuned_model_path: null
+
+wandb:
+  entity: ${env_vars.wandb.entity}
+  project: imitation-in-homes
+  # id starts out null, however, if you resume training, it will be set to the original id.
+  id: null
+  save_code: true
+
+seed: 42

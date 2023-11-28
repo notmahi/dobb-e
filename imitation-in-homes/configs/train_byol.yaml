@@ -1,0 +1,47 @@
+defaults:
+- env_vars: env_vars
+- dataset: hony
+- model: byol
+- loss_fn: byol_loss
+- _self_
+
+num_epochs: 800
+eval_every: 20
+device: cuda
+batch_size: 200
+
+sampler: null
+
+batch_sampler:
+  _target_: dataloaders.decord_dataset.DecordBatchSampler
+  batch_size: ${batch_size}
+
+dataloader:
+  _target_: dataloaders.decord_dataloader.DecordVideoLoader
+  device: cpu
+  num_workers: 10
+
+optimizer:
+  _target_: timm.optim.Lars
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 1.5e-6
+
+scheduler:
+  _target_: models.ssl.moco.optimizer.MoCoScheduler
+  warmup_epochs: 50
+  num_epochs: ${num_epochs}
+
+# Model saving and loading
+model_path: checkpoints/dobbe-byol-all-door-opening-torch
+resume_training: True
+save_every: 10
+
+wandb:
+  entity: ${env_vars.wandb.entity}
+  project: dobbe-byol-all-door-opening
+  # id starts out null, hoawever, if you resume training, it will be set to the original id.
+  id: null
+  save_code: true
+
+seed: 42

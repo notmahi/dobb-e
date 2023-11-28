@@ -1,0 +1,1 @@
+_target_: loss_fns.identity_loss_fn.IdentityLossFn

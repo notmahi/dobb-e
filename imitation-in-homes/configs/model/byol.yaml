@@ -1,0 +1,5 @@
+_target_: models.encoders.torch_encoders.TorchSSLByolMoco
+model_name: resnet18
+pretrained: True
+
+

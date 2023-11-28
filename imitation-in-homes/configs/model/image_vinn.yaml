@@ -1,0 +1,14 @@
+_target_: models.policies.vinn.VINN
+encoder:
+  _target_: models.encoders.timm_encoders.TimmSSL
+  model_name: resnet34
+  # model_name: hf-hub:notmahi/dobb-e
+
+k: 5
+plot_neighbors: True
+# .pt file that includes encoder weights
+# can be downloaded from https://dl.dobb-e.com/models/hpr_model.pt
+enc_weight_pth: null
+stochastic_nbhr_select: False
+softmax_temperature: 1
+action_scale: 1

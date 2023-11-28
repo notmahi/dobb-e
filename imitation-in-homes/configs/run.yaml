@@ -1,0 +1,33 @@
+defaults:
+  - env_vars: env_vars
+  - model: image_bc_depth
+  - dataset: finetune_task_data
+  - _self_
+
+image_save_dir: ${env_vars.project_root}/robot_images
+image_buffer_size: 1
+device: cpu
+
+include_task: Random
+include_env: Env1
+
+model_weight_pth: TODO_FINETUNED_MODEL_PATH
+
+experiment: bc_with_hpr_encoder
+batch_size: 32
+sampler: null
+run_offline: false
+use_depth: true
+
+robot_params:
+  h: 0.44
+  max_h: 0.08
+  max_base: 0.08
+  abs_gripper: True
+  rot_unit: axis
+
+wandb:
+  entity: ${env_vars.wandb.entity}
+  project: imitation-in-homes
+  id: null
+  save_code: true

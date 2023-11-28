@@ -1,0 +1,48 @@
+defaults:
+  - env_vars: env_vars
+  - dataset: hony
+  - model: mae
+  - loss_fn: mae_loss
+  - _self_
+
+num_epochs: 800
+eval_every: 5
+device: cuda
+batch_size: 96
+
+sampler: null
+
+batch_sampler:
+  _target_: dataloaders.decord_dataset.DecordBatchSampler
+  batch_size: ${batch_size}
+
+dataloader:
+  _target_: dataloaders.decord_dataloader.DecordVideoLoader
+  device: cpu
+  num_workers: 10
+
+optimizer:
+  _target_: timm.optim.Lars
+  lr: 0.1
+  momentum: 0.9
+  weight_decay: 1.5e-6
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.LinearLR
+  start_factor: 1.0
+  end_factor: 1.0
+
+# Model saving and loading
+model_path: checkpoints/mae_door_opening_test_forzen_30
+resume_training: false
+save_every: 5
+backup_every: 10
+
+wandb:
+  entity: ${env_vars.wandb.entity}
+  project: imitation-in-homes-MAE
+  # id starts out null, hoawever, if you resume training, it will be set to the original id.
+  id: null
+  save_code: true
+
+seed: 42

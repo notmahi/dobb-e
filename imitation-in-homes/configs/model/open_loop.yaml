@@ -1,0 +1,9 @@
+_target_: models.policies.open_loop.VINNOpenLoop
+encoder:
+  _target_: models.encoders.timm_encoders.TimmSSL
+  model_name: resnet34
+  # model_name: hf-hub:notmahi/dobb-e
+
+k: 5
+use_vinn: True
+enc_weight_pth: null

@@ -1,0 +1,60 @@
+train:
+  _target_: dataloaders.decord_dataset.DecordDataset
+  config:
+    _target_: dataloaders.utils.DataLoaderConfig
+    dataset_root: ${env_vars.finetune_task_data_root}
+    trajectory_roots:
+      _target_: dataloaders.utils.load_trajectory_roots
+      trajectory_root_path: ${dataset.train.config.dataset_root}/r3d_files.txt
+      original_root: ${env_vars.finetune_task_data_original_root}
+      new_root: ${dataset.train.config.dataset_root}
+    include_tasks: 
+      - 'Pick_And_Place'
+    exclude_homes: []
+    include_envs: 
+      - 'Env1'
+    sequence_length: 1
+    control_timeskip: 7
+    fps_subsample: 1
+    relative_gripper: False
+    use_depth: ${use_depth}
+    depth_cfg: 
+      zip_path: /home/robot_lab/data/benchmark_pick_and_place.zip
+      log2_scale: 1
+      log2_x_shift: 0.18
+      log2_y_shift: 8
+      n_bins: 8
+  max_videoreaders_in_memory: 128
+  shuffle_mode: RANDOM_ORDER
+  device: cpu
+
+
+test:
+  _target_: dataloaders.decord_dataset.DecordDataset
+  config:
+    _target_: dataloaders.utils.DataLoaderConfig
+    dataset_root: ${env_vars.finetune_task_data_root}
+    trajectory_roots:
+      _target_: dataloaders.utils.load_trajectory_roots
+      trajectory_root_path: ${dataset.test.config.dataset_root}/r3d_files.txt
+      original_root: ${env_vars.finetune_task_data_original_root}
+      new_root: ${dataset.test.config.dataset_root}
+    include_tasks: 
+      - 'Pick_And_Place'
+    exclude_homes: []
+    include_envs: 
+      - 'Env1_val'
+    sequence_length: ${dataset.train.config.sequence_length}
+    control_timeskip: ${dataset.train.config.control_timeskip}
+    fps_subsample: ${dataset.train.config.fps_subsample}
+    relative_gripper: False
+    use_depth: ${use_depth}
+    depth_cfg: 
+      zip_path: ${dataset.train.config.depth_cfg.zip_path}
+      log2_scale: ${dataset.train.config.depth_cfg.log2_scale}
+      log2_x_shift: ${dataset.train.config.depth_cfg.log2_x_shift}
+      log2_y_shift: ${dataset.train.config.depth_cfg.log2_y_shift}
+      n_bins: ${dataset.train.config.depth_cfg.n_bins}
+  max_videoreaders_in_memory: 128
+  shuffle_mode: SEQUENTIAL
+  device: cpu
