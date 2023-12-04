@@ -9,7 +9,7 @@
 ### Robot gripper
 <center><img src="img/robot.png" width="70%" ></center>
 
-These stocks were designed for collecting data and running expirements at the [NYU Generalized Robotics and AI Lab](https://lerrelpinto.com) using the [Hello Robot Stretch](https://hello-robot.com/product) with an iPhone as an egocentric camera. For data collection the iPhone was mounter to a manual [grabber tool](https://www.amazon.com/Vive-Suction-Reacher-Grabber-Pack/dp/B07GFL168C/ref=sr_1_7?keywords=grabber+tool+suction+cups&sr=8-7), and calibrated to be at the same perspective as the iPhone on the robot. Over time the design has been adjusted to fit the specific setup by adjusting height and setback of the clamps so that the two views are properly aligned, with the tips of the gradder arm as points of reference.
+These stocks were designed for collecting data and running experiments at the [NYU Generalized Robotics and AI Lab](https://lerrelpinto.com) using the [Hello Robot Stretch](https://hello-robot.com/product) with an iPhone as an egocentric camera. For data collection the iPhone was mounter to a manual [grabber tool](https://www.amazon.com/Vive-Suction-Reacher-Grabber-Pack/dp/B07GFL168C/ref=sr_1_7?keywords=grabber+tool+suction+cups&sr=8-7), and calibrated to be at the same perspective as the iPhone on the robot. Over time the design has been adjusted to fit the specific setup by adjusting height and setback of the clamps so that the two views are properly aligned, with the tips of the gradder arm as points of reference.
 
 ## [Bill of Materials](https://docs.google.com/spreadsheets/d/1qkDV2W64Q2eQ5Y6DkTYfokI8hO4we7ong_2VNufDRaY/edit?usp=sharing) 
 All necessary materials and hardware for this setup is listed in the Bill of Materials.
