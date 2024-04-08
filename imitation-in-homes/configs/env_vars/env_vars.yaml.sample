@@ -1,8 +1,8 @@
 home_ssl_data_root: /home/shared/data/iphone_data  # root to home ssl data folder
-finetune_task_data_root: /home/shared/data/finetuning_data_extracted  # root to the exported finetuning data folder
+finetune_task_data_root: /home/cpaxton/data/finetune_directory  # root to the exported finetuning data folder
 
 home_ssl_data_original_root: /path/to/directory  # path included in the r3d_files.txt file of dataset
-finetune_task_data_original_root: /path/to/finetune_directory  # path included in r3d_files.txt of dataset (may be the same as finetune_task_data_root if data has not been moved nor transferred across machines)
+finetune_task_data_original_root: /home/cpaxton/finetune_directory  # path included in r3d_files.txt of dataset (may be the same as finetune_task_data_root if data has not been moved nor transferred across machines)
 project_root: /home/shared/code/imitation-in-homes  # path to this repo
 
 wandb:
