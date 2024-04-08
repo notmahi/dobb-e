@@ -19,8 +19,12 @@ def load_trajectory_roots(
     original_root: Optional[str] = "/path/to/directory",
     new_root: Optional[str] = "/path/to/new/dataset_root",
 ) -> Iterable[Path]:
-    with open(trajectory_root_path, "r") as f:
-        trajectory_roots = json.load(f)
+    try:
+        with open(trajectory_root_path, "r") as f:
+            trajectory_roots = json.load(f)
+    except FileNotFoundError as e:
+        print(f"Could not find file {trajectory_root_path}")
+        raise e
     # Trim the .zip from the names before returning.
     if original_root is not None and new_root is not None:
         trajectory_roots = [
