@@ -6,7 +6,6 @@ from os import environ
 from pathlib import Path
 from typing import Iterable, Tuple
 
-import decord
 import hydra
 import torch
 import tqdm

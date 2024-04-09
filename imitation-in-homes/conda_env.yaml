@@ -26,5 +26,5 @@ dependencies:
     - wandb==0.15.8
     - scipy==1.10.0
     - vit_pytorch==1.6.4
-    - opencv_python==4.6.0
-    - opencv_contrib_python==4.6.0.66
+    - decord==0.6.0
+
