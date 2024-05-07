@@ -75,6 +75,9 @@ def visualize_trajectory(
     image_buffer = collections.deque(maxlen=buffer_size)
     test_dataset.set_include_trajectory_end(True)
 
+    print("Visualizing trajectories...")
+    print("# frames in trajectory =", len(test_dataset))
+
     i = 0
     done_visualizing = 0
     while (done_visualizing < n_visualized_trajectories) and (i < len(test_dataset)):
@@ -89,6 +92,7 @@ def visualize_trajectory(
             torch.tensor(gt_actions).unsqueeze(0).to(device),
         )
 
+        breakpoint()
         out, _ = model.step(model_input)
         action_preds.append(out.squeeze().cpu().detach().numpy())
 

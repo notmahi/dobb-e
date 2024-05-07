@@ -13,8 +13,8 @@ import torch
 import torch.nn as nn
 from einops import rearrange
 
-from models.ssl.moco import loader as moco_loader
-from utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD, get_moco_transforms
+from dobbe.models.ssl.moco import loader as moco_loader
+from dobbe.utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD, get_moco_transforms
 
 
 class MoCo(nn.Module):

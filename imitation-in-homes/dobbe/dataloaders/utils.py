@@ -392,6 +392,7 @@ class DataLoaderConfig:
                 continue
             self.trajectories.append(root)
             self.trajectory_lengths.append(len(poses))
+
         # Subsample trajectories.
         if self._do_subsample:
             self._subsample_trajectories()

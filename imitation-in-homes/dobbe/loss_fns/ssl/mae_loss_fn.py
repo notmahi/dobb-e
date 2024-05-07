@@ -2,10 +2,10 @@ from typing import Optional
 
 import torch
 
-from loss_fns.abstract_loss_fn import AbstractLossFn
-from models.ssl.mae import MAE
-from utils import log_wandb_image
-from utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD
+from dobbe.loss_fns.abstract_loss_fn import AbstractLossFn
+from dobbe.models.ssl.mae import MAE
+from dobbe.utils import log_wandb_image
+from dobbe.utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD
 
 
 class MAELossFn(AbstractLossFn):

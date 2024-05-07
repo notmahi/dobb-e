@@ -15,7 +15,7 @@ from torchvision.transforms import (
 )
 from vit_pytorch.vit import Transformer
 
-from utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD
+from dobbe.utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD
 
 
 def mask_image_using_indices(image, indices, num_patches=64):

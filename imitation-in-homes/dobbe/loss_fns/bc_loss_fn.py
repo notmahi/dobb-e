@@ -4,7 +4,7 @@ import torch
 from einops import rearrange
 from torchvision.ops import MLP
 
-from loss_fns.abstract_loss_fn import AbstractLossFn
+from dobbe.loss_fns.abstract_loss_fn import AbstractLossFn
 
 
 class BCLossFn(AbstractLossFn):

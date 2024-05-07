@@ -1,15 +1,15 @@
 defaults:
   - env_vars: env_vars
   - model: image_bc_depth_timm
-  - dataset: finetune_task_data
+  - dataset: debug
   - _self_
 
 image_save_dir: ${env_vars.project_root}/robot_images
 image_buffer_size: 1
 device: cpu
 
-include_task: Random
-include_env: Env1
+include_task: cactus
+include_env: default_env
 
 model_weight_pth: ${env_vars.project_root}/checkpoints/2024-05-07/cactus-default_env-moco-13-27-02/checkpoint_40.pt
 

@@ -42,7 +42,7 @@ test:
       - ${include_task}
     exclude_homes: []
     include_envs: 
-      - ${include_env}_val
+      - validation
     sequence_length: ${dataset.train.config.sequence_length}
     control_timeskip: ${dataset.train.config.control_timeskip}
     fps_subsample: ${dataset.train.config.fps_subsample}

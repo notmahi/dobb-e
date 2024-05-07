@@ -1,1 +1,1 @@
-_target_: loss_fns.bc_loss_fn.BCPolicyLossFn
+_target_: dobbe.loss_fns.bc_loss_fn.BCPolicyLossFn
