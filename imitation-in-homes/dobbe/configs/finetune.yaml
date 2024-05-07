@@ -17,11 +17,11 @@ include_env: Env1
 sampler: null
 
 batch_sampler:
-  _target_: dataloaders.decord_dataset.DecordBatchSampler
+  _target_: dobbe.dataloaders.decord_dataset.DecordBatchSampler
   batch_size: ${batch_size}
 
 dataloader:
-  _target_: dataloaders.decord_dataloader.DecordVideoLoader
+  _target_: dobbe.dataloaders.decord_dataloader.DecordVideoLoader
   device: cpu
   num_workers: 8
 
@@ -32,7 +32,7 @@ optimizer:
   weight_decay: 1.5e-6
 
 scheduler:
-  _target_: models.ssl.moco.optimizer.MoCoScheduler
+  _target_: dobbe.models.ssl.moco.optimizer.MoCoScheduler
   warmup_epochs: 10
   start_lr: 2e-6
   num_epochs: ${num_epochs}
