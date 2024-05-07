@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 import warnings
@@ -32,6 +33,43 @@ def load_trajectory_roots(
         ]
     trajectory_roots = tuple(Path(str(root)[:-4]) for root in trajectory_roots)
     return trajectory_roots
+
+
+def create_trajectory_roots(
+    trajectory_root_path: Union[str, Path],
+    original_root: Optional[str] = "/path/to/directory",
+    new_root: Optional[str] = "/path/to/new/dataset_root",
+) -> Iterable[Path]:
+    """Create trajectory roots; computed from existing directories."""
+    print("-" * 50)
+    print(f"Creating trajectory roots from {trajectory_root_path}")
+    print(f"Original root: {original_root}")
+    print(f"New root: {new_root}")
+    paths = glob.glob(str(trajectory_root_path) + "/*/*/*/*")
+    if original_root is not None and new_root is not None:
+        paths = [str(root).replace(original_root, new_root) for root in paths]
+
+    # paths = [p.split('/')[-4:] for p in paths]
+    # breakpoint()
+    print(f"Trajectory roots: {paths}")
+    print("-" * 50)
+    return [Path(path) for path in paths]
+
+
+def flatten_nested_lists(nested_list, level=0, max_level=-1):
+    if max_level > 0 and level >= max_level:
+        return nested_list
+    flattened_list = []
+    for sublist in nested_list:
+        if isinstance(sublist, list):
+            flattened_list.extend(
+                flatten_nested_lists(sublist, level=level + 1, max_level=max_level)
+            )
+        else:
+            flattened_list.append(sublist)
+    return flattened_list
+
+
 
 
 def flatten_nested_lists(nested_list, level=0, max_level=-1):
