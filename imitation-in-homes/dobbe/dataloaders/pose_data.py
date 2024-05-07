@@ -5,7 +5,7 @@ from typing import Union
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-from dataloaders.utils import TrajectorySlice
+from dobbe.dataloaders.utils import TrajectorySlice
 
 LABEL_FILENAME = "labels.json"
 PICKLE_FILENAME = "relative_poses.pkl"

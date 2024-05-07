@@ -1,10 +1,10 @@
 train:
-  _target_: dataloaders.decord_dataset.DecordDataset
+  _target_: dobbe.dataloaders.decord_dataset.DecordDataset
   config:
-    _target_: dataloaders.utils.DataLoaderConfig
+    _target_: dobbe.dataloaders.utils.DataLoaderConfig
     dataset_root: ${env_vars.finetune_task_data_root}
     trajectory_roots:
-      _target_: dataloaders.utils.load_trajectory_roots
+      _target_: dobbe.dataloaders.utils.load_trajectory_roots
       trajectory_root_path: ${dataset.train.config.dataset_root}/r3d_files.txt
       original_root: ${env_vars.finetune_task_data_original_root}
       new_root: ${dataset.train.config.dataset_root}
@@ -29,12 +29,12 @@ train:
 
 
 test:
-  _target_: dataloaders.decord_dataset.DecordDataset
+  _target_: dobbe.dataloaders.decord_dataset.DecordDataset
   config:
-    _target_: dataloaders.utils.DataLoaderConfig
+    _target_: dobbe.dataloaders.utils.DataLoaderConfig
     dataset_root: ${env_vars.finetune_task_data_root}
     trajectory_roots:
-      _target_: dataloaders.utils.load_trajectory_roots
+      _target_: dobbe.dataloaders.utils.load_trajectory_roots
       trajectory_root_path: ${dataset.test.config.dataset_root}/r3d_files.txt
       original_root: ${env_vars.finetune_task_data_original_root}
       new_root: ${dataset.test.config.dataset_root}

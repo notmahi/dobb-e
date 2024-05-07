@@ -20,8 +20,8 @@ import numpy as np
 import torch
 import tqdm
 
-from dataloaders.abstract_dataloader import AbstractVideoDataset
-from dataloaders.utils import DataLoaderConfig, TrajectorySlice, flatten_nested_lists
+from dobbe.dataloaders.abstract_dataloader import AbstractVideoDataset
+from dobbe.dataloaders.utils import DataLoaderConfig, TrajectorySlice, flatten_nested_lists
 
 
 # Create a dataclass for shuffle modes.

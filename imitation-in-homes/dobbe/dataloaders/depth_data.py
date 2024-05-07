@@ -6,7 +6,7 @@ import liblzfse
 import numpy as np
 import torch
 
-from dataloaders.utils import TrajectorySlice
+from dobbe.dataloaders.utils import TrajectorySlice
 
 DEPTH_FOLDER = "compressed_depths"
 DEPTH_FILENAME = "compressed_np_depth_float32.bin"

@@ -108,7 +108,7 @@ def run(cfg: OmegaConf, init_model=_init_model):
 
     else:
         # Lazy loading so we can run offline eval without the robot set up.
-        from robot.controller import Controller
+        from dobbe.robot.controller import Controller
 
         dict_cfg = _init_run(cfg)
         controller = Controller(cfg=dict_cfg)

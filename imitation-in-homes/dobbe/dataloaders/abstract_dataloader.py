@@ -4,9 +4,9 @@ from typing import Any, Dict
 
 from torch.utils.data import Dataset
 
-from dataloaders.depth_data import DepthDataLoader
-from dataloaders.pose_data import PoseDataLoader
-from dataloaders.utils import DataLoaderConfig, calculate_start_end_indices
+from dobbe.dataloaders.depth_data import DepthDataLoader
+from dobbe.dataloaders.pose_data import PoseDataLoader
+from dobbe.dataloaders.utils import DataLoaderConfig, calculate_start_end_indices
 
 
 class AbstractVideoDataset(ABC, Dataset):
