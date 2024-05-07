@@ -73,6 +73,7 @@ def visualize_trajectory(
     ground_truth = []
     images = []
     image_buffer = collections.deque(maxlen=buffer_size)
+    depth_buffer = collections.deque(maxlen=buffer_size)
     test_dataset.set_include_trajectory_end(True)
 
     print("Visualizing trajectories...")
@@ -81,18 +82,34 @@ def visualize_trajectory(
     i = 0
     done_visualizing = 0
     while (done_visualizing < n_visualized_trajectories) and (i < len(test_dataset)):
-        (input_images, terminate), *_, gt_actions = test_dataset[i]
+        (input_images, terminate), input_depth, gt_actions = test_dataset[i]
+
+        # Convert images
         input_images = input_images.float() / 255.0
         image_buffer.append(input_images[-1])
         img = input_images[-1]
+        
+        # For visualization
         images.append(einops.rearrange(img, "c h w -> h w c").cpu().detach().numpy())
-        ground_truth.append(gt_actions[-1])
-        model_input = (
-            torch.stack(tuple(image_buffer), dim=0).unsqueeze(0).to(device),
-            torch.tensor(gt_actions).unsqueeze(0).to(device),
-        )
 
-        breakpoint()
+        # Add gt actions
+        ground_truth.append(gt_actions[-1])
+
+        # Add depth
+        depth_buffer.append(input_depth[-1])
+
+        if model._use_depth:
+            model_input = (
+                torch.stack(tuple(image_buffer), dim=0).unsqueeze(0).to(device),
+                torch.stack(tuple(depth_buffer), dim=0).unsqueeze(0).to(device),
+                torch.tensor(gt_actions).unsqueeze(0).to(device),
+            )
+        else:
+            model_input = (
+                torch.stack(tuple(image_buffer), dim=0).unsqueeze(0).to(device),
+                torch.tensor(gt_actions).unsqueeze(0).to(device),
+            )
+
         out, _ = model.step(model_input)
         action_preds.append(out.squeeze().cpu().detach().numpy())
 
@@ -101,7 +118,7 @@ def visualize_trajectory(
             ground_truth = np.array(ground_truth)
             images = np.array(images)
 
-            print(action_preds.shape, ground_truth.shape, images.shape)
+            print("shapes:", action_preds.shape, ground_truth.shape, images.shape)
 
             generate_plots(
                 ground_truth, action_preds, images, traj_index=done_visualizing

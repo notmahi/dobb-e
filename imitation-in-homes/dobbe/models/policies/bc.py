@@ -184,7 +184,7 @@ class BCDepthModel(BCModel):
         self.eval()
         normalized_image = self.img_transform(input[0].squeeze(1))
         if self._use_depth:
-            if len(model_input) < 2:
+            if len(input) < 2:
                 raise RuntimeError('did not include all necessary inputs for depth model! Something is misconfigured.')
             norm_action, _ = self((normalized_image.unsqueeze(1), input[1], input[2]))
         else:
