@@ -5,7 +5,7 @@ from typing import Optional
 import decord
 from torch.utils.data import DataLoader, Dataset, Sampler
 
-from dataloaders.decord_dataset import DecordDataset
+from dobbe.dataloaders.decord_dataset import DecordDataset
 
 
 class DecordVideoLoader(DataLoader):
