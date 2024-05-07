@@ -7,8 +7,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import transforms as T
 
-from models.policies.depth_net import DepthBC
-from models.policies.normalize_actions import NormalizeActions
+from dobbe.models.policies.depth_net import DepthBC
+from dobbe.models.policies.normalize_actions import NormalizeActions
 
 ENCODER_LOADING_ERROR_MSG = (
     "Could not load encoder weights: trying to load as a BC model. "

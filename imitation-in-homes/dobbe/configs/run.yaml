@@ -1,6 +1,6 @@
 defaults:
   - env_vars: env_vars
-  - model: image_bc_depth
+  - model: image_bc_depth_timm
   - dataset: finetune_task_data
   - _self_
 

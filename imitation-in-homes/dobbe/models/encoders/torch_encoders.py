@@ -6,8 +6,8 @@ import timm
 import torch.nn as nn
 import torchvision.models as models
 
-from models.encoders.abstract_base_encoder import AbstractEncoder
-from utils.decord_transforms import create_transform
+from dobbe.models.encoders.abstract_base_encoder import AbstractEncoder
+from dobbe.utils.decord_transforms import create_transform
 
 
 class TorchModel(AbstractEncoder):

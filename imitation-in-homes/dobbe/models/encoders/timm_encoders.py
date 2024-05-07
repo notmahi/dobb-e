@@ -7,8 +7,8 @@ from typing import Union
 import einops
 import timm
 
-from models.encoders.abstract_base_encoder import AbstractEncoder
-from utils.decord_transforms import create_transform
+from dobbe.models.encoders.abstract_base_encoder import AbstractEncoder
+from dobbe.utils.decord_transforms import create_transform
 
 
 class TimmModel(AbstractEncoder):

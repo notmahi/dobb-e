@@ -1,6 +1,6 @@
-_target_: models.policies.bc.BCDepthModel
+_target_: dobbe.models.policies.bc.BCDepthModel
 encoder:
-  _target_: models.encoders.timm_encoders.TimmSSL
+  _target_: dobbe.models.encoders.timm_encoders.TimmSSL
   model_name: hf-hub:notmahi/dobb-e
   override_aug_kwargs:
     hflip: 0.0

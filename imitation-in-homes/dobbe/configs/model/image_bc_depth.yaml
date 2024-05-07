@@ -1,6 +1,6 @@
-_target_: models.policies.bc.BCDepthModel
+_target_: dobbe.models.policies.bc.BCDepthModel
 encoder:
-  _target_: models.encoders.torch_encoders.TorchSSL
+  _target_: dobbe.models.encoders.torch_encoders.TorchSSL
   model_name: resnet34
   override_aug_kwargs:
     hflip: 0.0
