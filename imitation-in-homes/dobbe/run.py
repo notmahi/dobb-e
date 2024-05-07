@@ -8,7 +8,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 
 import wandb
-from utils.trajectory_vis import visualize_trajectory
+from dobbe.utils.trajectory_vis import visualize_trajectory
 
 
 class WrapperPolicy(nn.Module):

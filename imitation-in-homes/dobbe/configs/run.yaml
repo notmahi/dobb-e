@@ -11,7 +11,7 @@ device: cpu
 include_task: Random
 include_env: Env1
 
-model_weight_pth: TODO_FINETUNED_MODEL_PATH
+model_weight_pth: ${env_vars.project_root}/checkpoints/2024-05-07/cactus-default_env-movo-13-27-02/checkpoint_40.pt
 
 experiment: bc_with_hpr_encoder
 batch_size: 32
