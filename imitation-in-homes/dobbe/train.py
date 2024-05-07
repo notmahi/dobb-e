@@ -17,7 +17,7 @@ from accelerate import (
 from omegaconf import OmegaConf
 from torch.utils.data import DataLoader
 
-from utils import AveragingDict, Callbacks, set_seed_everywhere
+from dobbe.utils import AveragingDict, Callbacks, set_seed_everywhere
 
 logger = logging.getLogger(__name__)
 if environ.get("ACCEL_DEBUG", False):
