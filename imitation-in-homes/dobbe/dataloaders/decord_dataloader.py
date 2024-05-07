@@ -25,6 +25,9 @@ class DecordVideoLoader(DataLoader):
         # Check if the dataset is a DecordDataset and the device is GPU
         if isinstance(dataset, DecordDataset):
             self._is_decord_dataset = True
+        else:
+            print(dataset)
+            self._is_decord_dataset = False
         if num_workers > 0 and self._is_decord_dataset:
             if device == "gpu":
                 warnings.warn(
