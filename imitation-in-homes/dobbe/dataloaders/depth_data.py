@@ -13,6 +13,10 @@ DEPTH_FILENAME = "compressed_np_depth_float32.bin"
 
 
 class DepthDataLoader:
+
+    max_depth = 5.0
+    clamp_depth = True
+
     def __init__(
         self,
         bin_root_path: Optional[Union[str, Path]] = None,
@@ -60,6 +64,8 @@ class DepthDataLoader:
         depth_tensor = torch.from_numpy(depth_img)
         if self._binarize:
             depth_tensor = self.bin_pixels(depth_tensor)
+        print("-" * 80)
+        print(depth_tensor)
         return depth_tensor  # 1,192,256
 
     def set_depth_data_path(self, path: Path):
@@ -85,6 +91,10 @@ class DepthDataLoader:
         depth_tensor = torch.from_numpy(self._depth_data[indices])
         if self._binarize:
             depth_tensor = self.bin_pixels(depth_tensor)
+        if self.clamp_depth:
+            # Clamp to a reasonable max depth
+            depth_tensor.clamp_(0, self.max_depth)
+        # print(np.unique(depth_tensor.cpu().numpy()))
         return depth_tensor.unsqueeze_(dim=1)  # B, 1, 192, 256
 
     def get_batch(self, indices: Union[np.ndarray, TrajectorySlice]):
