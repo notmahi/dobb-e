@@ -1,6 +1,6 @@
 defaults:
   - env_vars: env_vars
-  - dataset: hony
+  - dataset: debug
   - model: moco
   - loss_fn: moco_loss
   - _self_
@@ -8,16 +8,21 @@ defaults:
 num_epochs: 60
 eval_every: 5
 device: cuda
-batch_size: 800
+# batch_size: 800
+batch_size: 256
+use_depth: true
+
+include_task: cactus
+include_env: default_env
 
 sampler: null
 
 batch_sampler:
-  _target_: dataloaders.decord_dataset.DecordBatchSampler
+  _target_: dobbe.dataloaders.decord_dataset.DecordBatchSampler
   batch_size: ${batch_size}
 
 dataloader:
-  _target_: dataloaders.decord_dataloader.DecordVideoLoader
+  _target_: dobbe.dataloaders.decord_dataloader.DecordVideoLoader
   device: cpu
   num_workers: 10
 
@@ -28,7 +33,7 @@ optimizer:
   weight_decay: 1.0e-6
 
 scheduler:
-  _target_: models.ssl.moco.optimizer.MoCoScheduler
+  _target_: dobbe.models.ssl.moco.optimizer.MoCoScheduler
   warmup_epochs: 70
   num_epochs: ${num_epochs}
 

@@ -1,1 +1,1 @@
-_target_: loss_fns.ssl.moco_loss_fn.MocoLossFn
+_target_: dobbe.loss_fns.ssl.moco_loss_fn.MocoLossFn

@@ -1,7 +1,7 @@
 import torch
 
-from loss_fns.abstract_loss_fn import AbstractLossFn
-from models.ssl.moco.builder import MoCo
+from dobbe.loss_fns.abstract_loss_fn import AbstractLossFn
+from dobbe.models.ssl.moco.builder import MoCo
 
 
 class MocoLossFn(AbstractLossFn):

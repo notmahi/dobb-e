@@ -4,8 +4,8 @@ import torch
 from byol_pytorch import BYOL
 from einops import rearrange
 
-from loss_fns.abstract_loss_fn import AbstractLossFn
-from utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD, get_byol_transforms
+from dobbe.loss_fns.abstract_loss_fn import AbstractLossFn
+from dobbe.utils.ssl_transfroms import IMAGENET_MEAN, IMAGENET_STD, get_byol_transforms
 
 
 class ByolLossFn(AbstractLossFn):

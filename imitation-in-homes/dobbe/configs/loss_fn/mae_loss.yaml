@@ -1,4 +1,4 @@
-_target_: loss_fns.ssl.mae_loss_fn.MAELossFn
+_target_: dobbe.loss_fns.ssl.mae_loss_fn.MAELossFn
 decoder_dim: 512
 masking_ratio: 0.75
 decoder_depth: 6
