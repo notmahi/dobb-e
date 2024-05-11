@@ -524,3 +524,9 @@ test_*
 
 # Hardware gitignore
 .DS_Store
+
+# Vim stuff
+*.swp
+*.swo
+*.swn
+*.swm
