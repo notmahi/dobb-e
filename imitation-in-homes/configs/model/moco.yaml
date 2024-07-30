@@ -1,3 +1,0 @@
-_target_: models.encoders.timm_encoders.TimmSSLByolMoco
-model_name: resnet18
-pretrained: True
