@@ -47,6 +47,7 @@ RGB_VIDEO_H264_NAME = "compressed_video_h264.mp4"
 REL_ACTIONS_VIDEO_NAME = "video_rel_actions.avif"
 DEPTH_FOLDER_NAME = "compressed_depths"
 COMPLETED_DEPTH_FILENAME = "compressed_np_depth_float32.bin"
+METADATA = "metadata"
 
 
 def pairwise(iterable):
@@ -56,13 +57,21 @@ def pairwise(iterable):
     return zip(a, b)
 
 
-def load_depth(raw_bytes):
+def load_depth(raw_bytes, aspect_ratio):
     decompressed_bytes = liblzfse.decompress(raw_bytes)
     depth_img = np.frombuffer(decompressed_bytes, dtype=np.float32)
-    depth_img = depth_img.reshape((256, 192))  # For a LiDAR 3D Video
-    depth_img = np.ascontiguousarray(np.rot90(depth_img, -1))
+    if aspect_ratio > 1:
+        depth_img = depth_img.reshape((192, 256))
+    else:
+        depth_img = depth_img.reshape((256, 192))
+        depth_img = np.ascontiguousarray(np.rot90(depth_img, -1))
     return depth_img  # 1,192,256
 
+def get_aspect_ratio(root_path: Path) -> float:
+    metadata_dict = json.load(open(root_path / METADATA))
+    width = metadata_dict["w"]
+    height = metadata_dict["h"]
+    return width / height
 
 class VideoModes(Enum):
     RGB = 0
@@ -79,7 +88,6 @@ class VideoProcessor:
         video_modes: Iterable[VideoModes],
         fps: int = 6,
         skip_frames: int = 5,
-        resolution: Tuple[int, int] = (320, 240),
     ):
         self.root_path = Path(root_path)
         # Extract the timestamp from the root path.
@@ -88,7 +96,7 @@ class VideoProcessor:
         self.export_path = Path(export_path)
         self._fps = fps
         self._skip_frames = skip_frames
-        self._resolution = resolution
+        self.aspect_ratio = get_aspect_ratio(self.root_path)
 
     def process(self):
         # if VideoModes.REL_ACTIONS in self.video_modes:
@@ -177,7 +185,7 @@ class VideoProcessor:
                 new_path = self.root_path / DEPTH_FOLDER_NAME / (filename_format % idx)
                 if not new_path.exists():
                     break
-                all_depth_data.append(load_depth(new_path.read_bytes()))
+                all_depth_data.append(load_depth(new_path.read_bytes(), self.aspect_ratio))
                 idx += 1
             all_depth_data = np.stack(all_depth_data, axis=0)
             # Now zip and save this depth data.

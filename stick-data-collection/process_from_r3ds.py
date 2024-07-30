@@ -189,6 +189,7 @@ class R3DZipFileProcessor:
         # Now figure out the details from the metadata dict.
         self.rgb_width = metadata_dict["w"]
         self.rgb_height = metadata_dict["h"]
+        self.aspect_ratio = self.rgb_width / self.rgb_height
         self.image_size = (self.rgb_width, self.rgb_height)
 
         self.poses = np.array(metadata_dict["poses"])
@@ -220,7 +221,8 @@ class R3DZipFileProcessor:
         depth_files = {f for f in all_files if f.endswith(".depth")}
         conf_files = {f for f in all_files if f.endswith(".conf")}
 
-        rgbfolder = os.path.join(self._extracted_path, "unrotated_images")
+        image_folder_name = "images" if self.aspect_ratio > 1 else "unrotated_images"
+        rgbfolder = os.path.join(self._extracted_path, image_folder_name)
         # Process the RGB images.
         os.makedirs(rgbfolder, exist_ok=True)
         # Now, remove the files that are already extracted and therefore should not be extracted again.
@@ -235,7 +237,10 @@ class R3DZipFileProcessor:
         # TODO: Figure out how to rename in an idempotent way.
         R3DZipFileProcessor._rename_to_sequential(rgbfolder, extension=".jpg")
         # At the same time, rotate the images.
-        self.rotate_images(rgbfolder, redo_everything=redo_everything)
+        if self.aspect_ratio > 1:
+            self.compress_images(rgbfolder, redo_everything=redo_everything)
+        else:
+            self.rotate_and_compress_images(rgbfolder, redo_everything=redo_everything)
 
         # Process the depth images.
         depthfolder = os.path.join(self._extracted_path, "compressed_depths")
@@ -267,36 +272,50 @@ class R3DZipFileProcessor:
         R3DZipFileProcessor._rename_to_sequential(conffolder, extension=".conf")
         return rgbfolder, depthfolder, conffolder
 
-    def rotate_images(self, rgb_path, redo_everything=False):
-        # Rotate the images by 90 degrees, since the iphone captures images in portrait mode.
-        # We do it this way to make sure the operation is idempotent, since rotating an image
-        # 90 degrees and replacing the original one is not.
-        logger.info("Rotating images")
-        rotated_path = os.path.join(self._extracted_path, "images")
+    def compress_images(self, rgb_path, redo_everything=False):
+        logger.info("Compressing images")
         compressed_path = os.path.join(self._extracted_path, "compressed_images")
-        os.makedirs(rotated_path, exist_ok=True)
         os.makedirs(compressed_path, exist_ok=True)
         for f in sorted(os.listdir(rgb_path)):
-            if os.path.exists(os.path.join(rotated_path, f)) and not redo_everything:
+            if os.path.exists(os.path.join(compressed_path, f)) and not redo_everything:
                 continue
-            try:
-                image_path = os.path.join(rgb_path, f)
-                _ = PIL.Image.open(image_path)
-                img = cv2.imread(image_path)
-                img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
-                self._last_rotated_image = img
-            except PIL.UnidentifiedImageError as e:
-                logger.error(f"Error rotating {f}: {e}")
-                if self._last_rotated_image is not None:
-                    img = self._last_rotated_image
-                    self._last_rotated_image = None
-                else:
-                    raise e
-
-            cv2.imwrite(os.path.join(rotated_path, f), img)
-            # Now compress the image.
+            image_path = os.path.join(rgb_path, f)
+            img = cv2.imread(image_path)
+            
+            # Compress the image.
             compressed_img = cv2.resize(img, (256, 256))
             cv2.imwrite(os.path.join(compressed_path, f), compressed_img)
+
+    def rotate_and_compress_images(self, rgb_path, redo_everything=False):
+         # Rotate the images by 90 degrees, since the iphone captures images in portrait mode.
+         # We do it this way to make sure the operation is idempotent, since rotating an image
+         # 90 degrees and replacing the original one is not.
+         logger.info("Rotating images")
+         rotated_path = os.path.join(self._extracted_path, "images")
+         compressed_path = os.path.join(self._extracted_path, "compressed_images")
+         os.makedirs(rotated_path, exist_ok=True)
+         os.makedirs(compressed_path, exist_ok=True)
+         for f in sorted(os.listdir(rgb_path)):
+             if os.path.exists(os.path.join(rotated_path, f)) and not redo_everything:
+                 continue
+             try:
+                 image_path = os.path.join(rgb_path, f)
+                 _ = PIL.Image.open(image_path)
+                 img = cv2.imread(image_path)
+                 img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
+                 self._last_rotated_image = img
+             except PIL.UnidentifiedImageError as e:
+                 logger.error(f"Error rotating {f}: {e}")
+                 if self._last_rotated_image is not None:
+                     img = self._last_rotated_image
+                     self._last_rotated_image = None
+                 else:
+                     raise e
+
+             cv2.imwrite(os.path.join(rotated_path, f), img)
+             # Now compress the image.
+             compressed_img = cv2.resize(img, (256, 256))
+             cv2.imwrite(os.path.join(compressed_path, f), compressed_img)
 
     def process_poses(self):
         # Process the poses from the metadata file.
@@ -317,7 +336,7 @@ class R3DZipFileProcessor:
             # We will convert the extrinsic matrix to the camera pose.
             # The camera pose is the inverse of the extrinsic matrix.
             relative_pose = np.linalg.inv(init_pose) @ extrinsic_matrix
-            transformed_pose = apply_permutation_transform(relative_pose)
+            transformed_pose = apply_permutation_transform(relative_pose, self.aspect_ratio)
             self.translation_vectors.append(transformed_pose[:3, -1])
             self.quaternions.append(R.from_matrix(transformed_pose[:3, :3]).as_quat())
         quats = np.array(self.quaternions)
