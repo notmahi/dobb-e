@@ -42,12 +42,10 @@ Get it from [ArXiv](https://arxiv.org/abs/2311.16098) or our [website](https://d
 ## Citation
 If you find any of our work useful, please cite us!
 <pre>
-@misc{shafiullah2023dobbe,
-      title={On Bringing Robots Home}, 
-      author={Nur Muhammad Mahi Shafiullah and Anant Rai and Haritheja Etukuru and Yiqian Liu and Ishan Misra and Soumith Chintala and Lerrel Pinto},
-      year={2023},
-      eprint={2311.16098},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
+@article{shafiullah2023bringing,
+  title={On bringing robots home},
+  author={Shafiullah, Nur Muhammad Mahi and Rai, Anant and Etukuru, Haritheja and Liu, Yiqian and Misra, Ishan and Chintala, Soumith and Pinto, Lerrel},
+  journal={arXiv preprint arXiv:2311.16098},
+  year={2023}
 }
 </pre>
